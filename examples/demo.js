@@ -33,11 +33,22 @@ document.querySelector('#testes').onclick = async () => {
     await render(); document.querySelector('dialog').dispatchEvent(new Event('cancel', { cancelable: true }));
     check(await b === false, 'Cancelamento nativo / Native cancel');
     check(!document.querySelector('dialog'), 'Sem modal restante / Cleanup');
+    const ativo = new AbortController();
+    const cancelavel = perguntar({ ...o(), signal: ativo.signal, valor: 'preserved' }); await render();
+    document.querySelector('dialog [aria-label="Minimizar / Minimize"]').click();
+    ativo.abort();
+    check(await cancelavel === null && !document.querySelector('.avisar-restaurar') && !document.querySelector('dialog'), 'Abort minimizado limpa DOM / Abort minimized cleans DOM');
+    const primeiro = confirmar('keep open'); await render();
+    const emFila = new AbortController();
+    const segundo = perguntar({ signal: emFila.signal }); emFila.abort();
+    check(await segundo === null && document.querySelector('dialog').open, 'Abort na fila é imediato / Queued abort is immediate');
+    document.querySelector('dialog .fechar').click(); await primeiro; await render();
+    check(!document.querySelector('dialog'), 'Fila cancelada não abre depois / Aborted queue does not reopen');
     resultado.textContent = reports.join('\n');
   } catch (e) { resultado.textContent = reports.join('\n') + '\nFAIL ' + e.message; }
 };
 // The chart sibling is optional: this demo still works if avisar is cloned alone.
 try {
   const { rosca } = await import('../../graficos-svg/src/index.js');
-  document.querySelector('#grafico').innerHTML = rosca([{ rotulo: 'Example A', valor: 10 }, { rotulo: 'Example B', valor: 20 }]);
+  document.querySelector('#grafico').innerHTML = rosca([{ rotulo: 'Example A', valor: 10 }, { rotulo: 'Example B', valor: 20 }], { titulo: 'Distribuição / Distribution', descricao: 'Example A: 10; Example B: 20' });
 } catch { document.querySelector('#grafico').textContent = 'Clone graficos-svg beside avisar to display the optional chart.'; }

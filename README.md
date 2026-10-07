@@ -2,13 +2,13 @@
 
 [English (United States)](README.en-US.md) · [Apoio voluntário](SUPPORT.md)
 
-## Revisão 1.1.0
+## Segurança e compatibilidade
 
 Modal nativo, fila, nomes acessíveis, temas e minimizar/restaurar sem perder campos.
 
 Opções: `titulo`, `texto`, `valor`, `confirmar`, `cancelar`, `perigo`, `tema` (auto/claro/escuro), `minimizar`, `rotuloCampo`, `nonce`, `injetarCSS`. Navegador moderno com dialog.showModal; importação em SSR permitida, interação sem DOM rejeita. Diálogos ficam em fila. Escape/X cancelam, Enter envia o formulário, Tab fica no modal nativo. Minimizar preserva campos e libera a página até restaurar; a Promise continua pendente. Textos usam textContent. Para CSP estrita, forneça nonce ou CSS externo com `injetarCSS: false` (a constante CSS é exportada). Labels podem ser personalizados para inglês. Veja `examples/index.html`.
 
-Baixe pelo GitHub; não é necessário instalar um pacote homônimo do npm. Para consumir em outro projeto, use uma revisão Git fixada (tag v1.1.0) ou copie o módulo e preserve a licença. Os exemplos abaixo usam importação local após o clone. Node.js 22 ou superior para os testes.
+Baixe pelo GitHub; não é necessário instalar um pacote homônimo do npm. Para consumir em outro projeto, use uma revisão Git fixada (tag v1.2.0) ou copie o módulo e preserve a licença. Os exemplos abaixo usam importação local após o clone. Node.js 22 ou superior para os testes.
 
 Substituto acessível de `alert()` / `confirm()` / `prompt()` — em **vanilla JS**,
 sem dependência, framework-agnóstico. Retorna **Promise**, prende o foco no
@@ -74,3 +74,8 @@ MIT © Rodrigo Rodrigues
 Código independente inspirado em problemas resolvidos no Nexus, projeto de Rodrigo Rodrigues. Não inclui banco, configuração privada, logs, dados de usuários ou credenciais. Evolução coordenada significa revisar mudanças relacionadas no mesmo ciclo; não há cópia automática de arquivos privados.
 
 [Como contribuir](CONTRIBUTING.md) · [Segurança](SECURITY.md) · [Apoio voluntário](SUPPORT.md)
+
+
+## Uso prático — 1.2.0
+
+As funções aceitam `signal: AbortSignal`. Cancelamento retorna `null` em perguntar, `false` em confirmar e `undefined` em avisar; funciona aberto, minimizado e na fila. Use AbortController na desmontagem de uma página.
