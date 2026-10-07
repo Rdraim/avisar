@@ -7,7 +7,7 @@
 # avisar
 
 <!-- public-badges:start -->
-[![license](assets/support/badge-license.svg)](LICENSE) [![CI](assets/support/badge-ci.svg)](https://github.com/Rdraim/avisar/actions) [![release](assets/support/badge-release.svg)](https://github.com/Rdraim/avisar/releases)
+[![license](assets/support/badge-license.svg)](LICENSE) [![CI](assets/support/badge-ci.svg)](https://github.com/Rdraim/avisar/actions) [![release](assets/support/badge-release.svg)](https://github.com/Rdraim/avisar/releases) [![Git](assets/support/badge-git.svg)](https://github.com/Rdraim/avisar/commits/main)
 <!-- public-badges:end -->
 
 Queued Promise-based alert, confirm and prompt dialogs using native HTML dialog behavior.
