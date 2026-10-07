@@ -6,10 +6,10 @@
 
 # 1.2.0 — 2026-10-07
 
-As funções aceitam `signal: AbortSignal`. Cancelamento retorna `null` em perguntar, `false` em confirmar e `undefined` em avisar; funciona aberto, minimizado e na fila. Use AbortController na desmontagem de uma página.
+Las funciones aceptan `signal: AbortSignal`. Cancelar devuelve `null` en `perguntar`, `false` en `confirmar` y `undefined` en `avisar`, incluso en diálogos minimizados o en cola. Usá AbortController cuando se desmonte una página.
 
 # 1.1.0 — 2026-10-07
 
-Modal nativo, fila, nomes acessíveis, temas e minimizar/restaurar sem perder campos.
+Modal nativo, cola, nombres accesibles, temas y minimizar/restaurar conservando los campos.
 
-Documentação PT-BR/EN-US, apoio voluntário ainda sem canal de pagamento e verificações de publicação.
+Documentación en portugués brasileño e inglés de Estados Unidos, apoyo voluntario todavía sin canal de pago en esa versión y verificaciones de publicación.
