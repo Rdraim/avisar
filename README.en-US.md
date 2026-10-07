@@ -1,6 +1,6 @@
 # avisar
 
-[Brazilian Portuguese](README.md) · [Voluntary support](SUPPORT.md)
+[Brazilian Portuguese](README.md) · [Voluntary support](SUPPORT.en-US.md)
 
 Queued Promise-based alert, confirm and prompt dialogs using native HTML dialog behavior.
 
@@ -42,7 +42,7 @@ These standalone modules are inspired by work on Nexus, Rodrigo Rodrigues's inde
 
 Native modal, queue, accessible names, themes and input-preserving minimize/restore.
 
-[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Voluntary support](SUPPORT.md)
+[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Voluntary support](SUPPORT.en-US.md)
 
 MIT © Rodrigo Rodrigues
 
@@ -50,3 +50,10 @@ MIT © Rodrigo Rodrigues
 ## Practical use — 1.2.0
 
 Functions accept `signal: AbortSignal`. Cancellation returns `null` for perguntar, `false` for confirmar and `undefined` for avisar; it works when open, minimized or queued. Use AbortController when a page unmounts.
+
+
+## ☕ Support this work
+
+If this project helped you, consider buying me a coffee. Any amount is welcome, and sharing your feedback helps too.
+
+[![Support via Pix](assets/support/pix-en-us.svg)](SUPPORT.en-US.md)
