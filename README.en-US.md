@@ -46,7 +46,7 @@ These standalone modules are inspired by work on Nexus, Rodrigo Rodrigues's inde
 
 Native modal, queue, accessible names, themes and input-preserving minimize/restore.
 
-[Contributing](CONTRIBUTING.md) · [Security](SECURITY.md)
+[Contributing](CONTRIBUTING.en-US.md) · [Security](SECURITY.en-US.md)
 
 MIT © Rodrigo Rodrigues
 
