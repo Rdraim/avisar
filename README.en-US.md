@@ -45,3 +45,8 @@ Native modal, queue, accessible names, themes and input-preserving minimize/rest
 [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Voluntary support](SUPPORT.md)
 
 MIT © Rodrigo Rodrigues
+
+
+## Practical use — 1.2.0
+
+Functions accept `signal: AbortSignal`. Cancellation returns `null` for perguntar, `false` for confirmar and `undefined` for avisar; it works when open, minimized or queued. Use AbortController when a page unmounts.

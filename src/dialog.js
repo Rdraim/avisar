@@ -24,12 +24,23 @@ function botao(texto, classe, acao) {
   return el;
 }
 function abrir(o) {
+  if (o.signal?.aborted) return Promise.resolve(null);
   if (typeof document === 'undefined') return Promise.reject(new Error('avisar precisa de um navegador com DOM'));
   const resultado = fila.then(() => executar(o));
   fila = resultado.catch(() => {});
+  if (o.signal) {
+    let abortar;
+    const cancelado = new Promise((resolve) => {
+      abortar = () => resolve(null);
+      o.signal.addEventListener('abort', abortar, { once: true });
+      if (o.signal.aborted) abortar();
+    });
+    return Promise.race([resultado, cancelado]).finally(() => o.signal.removeEventListener('abort', abortar));
+  }
   return resultado;
 }
-function executar({ titulo = 'Aviso / Notice', texto = '', campo = false, confirmar = 'OK', cancelar = null, perigo = false, valor = '', tema = 'auto', nonce, injetarCSS = true, minimizar = true, rotuloCampo = texto || titulo }) {
+function executar({ titulo = 'Aviso / Notice', texto = '', campo = false, confirmar = 'OK', cancelar = null, perigo = false, valor = '', tema = 'auto', nonce, injetarCSS = true, minimizar = true, rotuloCampo = texto || titulo, signal }) {
+  if (signal?.aborted) return null;
   if (injetarCSS && !document.querySelector('style[data-avisar]')) {
     const estilo = elemento('style', CSS); estilo.dataset.avisar = '';
     if (nonce) estilo.nonce = nonce;
@@ -57,13 +68,15 @@ function executar({ titulo = 'Aviso / Notice', texto = '', campo = false, confir
   const acoes = elemento('div', null, 'avisar-acoes');
   const controles = elemento('div', null, 'avisar-controles');
   let restaurar, resolvido = false;
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const fechar = (resultado) => {
       if (resolvido) return;
-      resolvido = true; dialogo.close(); dialogo.remove(); restaurar?.remove();
+      resolvido = true; signal?.removeEventListener('abort', abortar);
+      dialogo.close(); dialogo.remove(); restaurar?.remove();
       if (anterior?.isConnected && typeof anterior.focus === 'function') anterior.focus();
       resolve(resultado);
     };
+    const abortar = () => fechar(null);
     const fecharBtn = botao('×', 'avisar-icone fechar', () => fechar(null));
     fecharBtn.title = 'Fechar / Close'; fecharBtn.setAttribute('aria-label', fecharBtn.title);
     if (minimizar) {
@@ -86,7 +99,13 @@ function executar({ titulo = 'Aviso / Notice', texto = '', campo = false, confir
       const r = dialogo.getBoundingClientRect();
       if (cancelar && ev.target === dialogo && (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom)) fechar(null);
     });
-    document.body.append(dialogo); dialogo.showModal(); (input || ok).focus();
+    try {
+      signal?.addEventListener('abort', abortar, { once: true });
+      document.body.append(dialogo); dialogo.showModal(); (input || ok).focus();
+    } catch (erro) {
+      signal?.removeEventListener('abort', abortar);
+      dialogo.remove(); restaurar?.remove(); reject(erro);
+    }
   });
 }
 export function avisar(texto, opcoes = {}) { return abrir({ ...opcoes, texto, campo: false, cancelar: null }).then(() => undefined); }
