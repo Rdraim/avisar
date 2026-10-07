@@ -12,7 +12,7 @@ Modal nativo, fila, nomes acessíveis, temas e minimizar/restaurar sem perder ca
 
 Opções: `titulo`, `texto`, `valor`, `confirmar`, `cancelar`, `perigo`, `tema` (auto/claro/escuro), `minimizar`, `rotuloCampo`, `nonce`, `injetarCSS`. Navegador moderno com dialog.showModal; importação em SSR permitida, interação sem DOM rejeita. Diálogos ficam em fila. Escape/X cancelam, Enter envia o formulário, Tab fica no modal nativo. Minimizar preserva campos e libera a página até restaurar; a Promise continua pendente. Textos usam textContent. Para CSP estrita, forneça nonce ou CSS externo com `injetarCSS: false` (a constante CSS é exportada). Labels podem ser personalizados para inglês. Veja `examples/index.html`.
 
-Baixe pelo GitHub; não é necessário instalar um pacote homônimo do npm. Para consumir em outro projeto, use uma revisão Git fixada (tag v1.2.0) ou copie o módulo e preserve a licença. Os exemplos abaixo usam importação local após o clone. Node.js 22 ou superior para os testes.
+Baixe pelo GitHub; não é necessário instalar um pacote homônimo do npm. Para consumir em outro projeto, use uma revisão Git fixada (tag v1.2.1) ou copie o módulo e preserve a licença. Os exemplos abaixo usam importação local após o clone. Node.js 22 ou superior para os testes.
 
 Substituto acessível de `alert()` / `confirm()` / `prompt()` — em **vanilla JS**,
 sem dependência, framework-agnóstico. Retorna **Promise**, prende o foco no
@@ -22,7 +22,7 @@ Tema claro/escuro automático.
 ## Instalação
 
 ```bash
-git clone https://github.com/techrodrigo21-ux/avisar.git
+git clone https://github.com/Rdraim/avisar.git
 cd avisar
 npm test
 ```
@@ -100,7 +100,7 @@ Sou **Rodrigo Rodrigues**, criador do **Nexus** e destes projetos de código abe
 
 <p>
   <a href="#apoie-com-pix"><img src="assets/support/pix-pt-br.svg" width="190" height="44" alt="Apoiar com Pix"></a>
-  <a href="https://github.com/techrodrigo21-ux/avisar/issues/new?title=Coment%C3%A1rio%3A%20este%20projeto%20me%20ajudou"><img src="assets/support/comment-pt-br.svg" width="210" height="44" alt="Deixar um comentário"></a>
+  <a href="https://github.com/Rdraim/avisar/issues/new?title=Coment%C3%A1rio%3A%20este%20projeto%20me%20ajudou"><img src="assets/support/comment-pt-br.svg" width="210" height="44" alt="Deixar um comentário"></a>
 </p>
 
 ### Apoie com Pix
@@ -121,7 +121,7 @@ Você também pode apoiar compartilhando o projeto, relatando um problema, melho
 
 ### Seu comentário também faz diferença
 
-[Conte como o projeto te ajudou](https://github.com/techrodrigo21-ux/avisar/issues/new?title=Coment%C3%A1rio%3A%20este%20projeto%20me%20ajudou). Vou gostar de saber o que você criou, o que aprendeu e o que poderia ficar mais claro para quem está começando.
+[Conte como o projeto te ajudou](https://github.com/Rdraim/avisar/issues/new?title=Coment%C3%A1rio%3A%20este%20projeto%20me%20ajudou). Vou gostar de saber o que você criou, o que aprendeu e o que poderia ficar mais claro para quem está começando.
 
 O comentário é bem-vindo com ou sem doação. Preserve sua privacidade: não publique comprovantes, dados pessoais, credenciais ou informações de usuários nas Issues.
 
