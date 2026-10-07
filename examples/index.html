@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>avisar — demonstração / demo</title>
+<style>body{font:16px/1.6 system-ui;margin:24px auto;padding:0 16px;max-width:800px;background:#f8fafc;color:#111827}body.escuro{background:#0f172a;color:#f1f5f9}button,select{font:inherit;padding:8px;margin:4px;border-radius:5px}pre{white-space:pre-wrap;overflow-wrap:anywhere}section{margin:24px 0}svg{width:100%;max-width:480px}</style>
+<h1>avisar — demonstração / demo</h1>
+<p>Exemplos sintéticos, executados apenas neste navegador. Synthetic examples, in this browser only.</p>
+<label>Tema / Theme <select id="tema"><option value="claro">Claro / Light</option><option value="escuro">Escuro / Dark</option></select></label>
+<section>
+<button id="aviso">Aviso / Alert</button><button id="confirma">Confirmar / Confirm</button>
+<button id="pergunta">Perguntar / Prompt</button><button id="fila">Dois diálogos / Queue</button>
+<button id="testes">Testes do navegador / Browser tests</button>
+</section>
+<pre id="resultado" aria-live="polite">Pronto / Ready</pre>
+<h2>SVG responsivo / Responsive SVG</h2><div id="grafico"></div>
+<p>Dados do gráfico / Chart data: Example A = 10, Example B = 20.</p>
+<script type="module" src="./demo.js"></script>
+</html>

@@ -1,15 +1,35 @@
 {
   "name": "avisar",
-  "version": "1.0.0",
-  "description": "Substituto acessivel de alert/confirm/prompt em vanilla JS: Promise, foco preso, Esc/Enter, tema claro-escuro. Sem dependencia, framework-agnostico.",
+  "version": "1.1.0",
+  "description": "Queued Promise-based alert, confirm and prompt dialogs using native HTML dialog behavior.",
   "type": "module",
   "main": "src/index.js",
   "exports": "./src/index.js",
-  "files": ["src"],
-  "scripts": { "check": "node --check src/index.js" },
-  "keywords": ["modal", "dialog", "confirm", "prompt", "alert", "a11y", "vanilla-js", "focus-trap"],
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "check": "node --check src/index.js",
+    "test": "node --test",
+    "check:public": "node tools/check-public-content.mjs"
+  },
+  "keywords": [
+    "modal",
+    "dialog",
+    "confirm",
+    "prompt",
+    "alert",
+    "a11y",
+    "vanilla-js",
+    "focus-trap"
+  ],
   "author": "Rodrigo Rodrigues",
   "license": "MIT",
-  "engines": { "node": ">=18" },
-  "repository": { "type": "git", "url": "git+https://github.com/techrodrigo21-ux/avisar.git" }
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/techrodrigo21-ux/avisar.git"
+  }
 }
