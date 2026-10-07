@@ -6,6 +6,10 @@
 
 # avisar
 
+<!-- public-badges:start -->
+[![license](assets/support/badge-license.svg)](LICENSE) [![CI](assets/support/badge-ci.svg)](https://github.com/Rdraim/avisar/actions) [![release](assets/support/badge-release.svg)](https://github.com/Rdraim/avisar/releases)
+<!-- public-badges:end -->
+
 Diálogos de aviso, confirmación y entrada de texto con Promises, cola de solicitudes y el elemento HTML nativo dialog.
 
 ## Empezá acá

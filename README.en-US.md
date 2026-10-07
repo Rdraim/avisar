@@ -6,6 +6,10 @@
 
 # avisar
 
+<!-- public-badges:start -->
+[![license](assets/support/badge-license.svg)](LICENSE) [![CI](assets/support/badge-ci.svg)](https://github.com/Rdraim/avisar/actions) [![release](assets/support/badge-release.svg)](https://github.com/Rdraim/avisar/releases)
+<!-- public-badges:end -->
+
 Queued Promise-based alert, confirm and prompt dialogs using native HTML dialog behavior.
 
 ## Start here
