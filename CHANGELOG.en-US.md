@@ -6,6 +6,10 @@
 
 # 1.2.0 — 2026-10-07
 
+## 1.2.1 — 2026-10-07
+
+Rdraim identity, visual presentation, compatibility review and more efficient history guard. Runtime API preserved.
+
 Functions accept `signal: AbortSignal`. Cancellation returns `null` for perguntar, `false` for confirmar and `undefined` for avisar; it works when open, minimized or queued. Use AbortController when a page unmounts.
 
 # 1.1.0 — 2026-10-07

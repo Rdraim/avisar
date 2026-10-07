@@ -6,6 +6,10 @@
 
 # 1.2.0 — 2026-10-07
 
+## 1.2.1 — 2026-10-07
+
+Identidade Rdraim, apresentação gráfica, revisão de compatibilidade e guarda do histórico mais eficiente. API de runtime preservada.
+
 As funções aceitam `signal: AbortSignal`. Cancelamento retorna `null` em perguntar, `false` em confirmar e `undefined` em avisar; funciona aberto, minimizado e na fila. Use AbortController na desmontagem de uma página.
 
 # 1.1.0 — 2026-10-07
