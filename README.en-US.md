@@ -23,7 +23,7 @@ npm test
 node tools/check-public-content.mjs
 ```
 
-These imports work from the cloned repository root. To use the module in another project, install a pinned Git tag (v1.2.1) or copy the module while retaining the MIT license. This documentation does not claim an npm registry release.
+These imports work from the cloned repository root. To use the module in another project, install a pinned Git tag (v1.3.0) or copy the module while retaining the MIT license. This documentation does not claim an npm registry release.
 
 ```js
 import { avisar, confirmar, perguntar } from './src/index.js';
