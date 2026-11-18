@@ -4,6 +4,10 @@
   <a href="CHANGELOG.es-AR.md"><img src="assets/support/flag-es-ar.svg" width="36" height="24" alt="Español (Argentina)" title="Español (Argentina)"></a>
 </p>
 
+# 1.3.0 — 2026-11-18
+
+New `aoFechar` option for `confirmar()`: the value returned when the person closes the dialog without answering (`Esc`, X or a click outside). The Cancel button still returns `false` as an explicit answer. Cancellation through `AbortSignal` (already aborted, open, minimized or queued) also returns `aoFechar`. The `false` default preserves the previous behavior; use `aoFechar: null` to tell "dismissed" apart from "no". `perguntar()` and `avisar()` are unchanged. Tests with a minimal synthetic DOM cover both cases.
+
 # 1.2.0 — 2026-10-07
 
 ## 1.2.1 — 2026-10-07

@@ -14,7 +14,7 @@
 
 Modal nativo, fila, nomes acessíveis, temas e minimizar/restaurar sem perder campos.
 
-Opções: `titulo`, `texto`, `valor`, `confirmar`, `cancelar`, `perigo`, `tema` (auto/claro/escuro), `minimizar`, `rotuloCampo`, `nonce`, `injetarCSS`. Navegador moderno com dialog.showModal; importação em SSR permitida, interação sem DOM rejeita. Diálogos ficam em fila. Escape/X cancelam, Enter envia o formulário, Tab fica no modal nativo. Minimizar preserva campos e libera a página até restaurar; a Promise continua pendente. Textos usam textContent. Para CSP estrita, forneça nonce ou CSS externo com `injetarCSS: false` (a constante CSS é exportada). Labels podem ser personalizados para inglês. Veja `examples/index.html`.
+Opções: `titulo`, `texto`, `valor`, `confirmar`, `cancelar`, `perigo`, `tema` (auto/claro/escuro), `minimizar`, `rotuloCampo`, `nonce`, `injetarCSS`, `aoFechar` (só em confirmar). Navegador moderno com dialog.showModal; importação em SSR permitida, interação sem DOM rejeita. Diálogos ficam em fila. Escape/X cancelam, Enter envia o formulário, Tab fica no modal nativo. Minimizar preserva campos e libera a página até restaurar; a Promise continua pendente. Textos usam textContent. Para CSP estrita, forneça nonce ou CSS externo com `injetarCSS: false` (a constante CSS é exportada). Labels podem ser personalizados para inglês. Veja `examples/index.html`.
 
 Baixe pelo GitHub; não é necessário instalar um pacote homônimo do npm. Para consumir em outro projeto, use uma revisão Git fixada (tag v1.2.1) ou copie o módulo e preserve a licença. Os exemplos abaixo usam importação local após o clone. Node.js 22 ou superior para os testes.
 
@@ -57,7 +57,7 @@ if (await confirmar('Tem certeza?')) salvar();
 | função | retorno | opções |
 |---|---|---|
 | `avisar(texto, o?)` | `Promise<void>` | `titulo`, `confirmar` |
-| `confirmar(texto\|o)` | `Promise<boolean>` | `titulo`, `texto`, `confirmar`, `cancelar`, `perigo` |
+| `confirmar(texto\|o)` | `Promise<boolean>` (ou o valor de `aoFechar` ao fechar) | `titulo`, `texto`, `confirmar`, `cancelar`, `perigo`, `aoFechar` (padrão `false`) |
 | `perguntar(texto\|o)` | `Promise<string\|null>` | `titulo`, `texto`, `valor`, `confirmar`, `cancelar` |
 
 ## Acessibilidade
@@ -84,9 +84,20 @@ Código independente inspirado em problemas resolvidos no Nexus, projeto de Rodr
 [Como contribuir](CONTRIBUTING.md) · [Segurança](SECURITY.md)
 
 
+## Uso prático — 1.3.0
+
+Em `confirmar`, o botão Cancelar é uma resposta explícita e sempre devolve `false`. Fechar sem responder (`Esc`, X ou clique fora) devolve o valor de `aoFechar`, que por padrão é `false` — o mesmo retorno das versões anteriores. Passe `aoFechar: null` para distinguir "dispensou" de "não":
+
+```js
+const r = await confirmar({ texto: 'Salvar antes de sair?', cancelar: 'Descartar', confirmar: 'Salvar', aoFechar: null });
+if (r === true) salvar();
+else if (r === false) descartar();
+else return; // null: fechou sem responder, nada muda
+```
+
 ## Uso prático — 1.2.0
 
-As funções aceitam `signal: AbortSignal`. Cancelamento retorna `null` em perguntar, `false` em confirmar e `undefined` em avisar; funciona aberto, minimizado e na fila. Use AbortController na desmontagem de uma página.
+As funções aceitam `signal: AbortSignal`. Cancelamento retorna `null` em perguntar, o valor de `aoFechar` em confirmar (padrão `false`) e `undefined` em avisar; funciona aberto, minimizado e na fila. Use AbortController na desmontagem de uma página.
 
 ---
 

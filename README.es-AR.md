@@ -34,21 +34,32 @@ const name = await perguntar({ titulo: 'Nombre', texto: 'Ingresá un nombre', va
 
 ## API
 
-`avisar(texto, opcoes)` → Promise<void>; `confirmar(texto | opcoes)` → Promise<boolean>; `perguntar(texto | opcoes)` → Promise<string | null>; `CSS`.
+`avisar(texto, opcoes)` → Promise<void>; `confirmar(texto | opcoes)` → Promise<boolean> (o el valor de `aoFechar` al cerrar; `aoFechar` vale `false` por defecto); `perguntar(texto | opcoes)` → Promise<string | null>; `CSS`.
 
 Los nombres públicos de funciones y opciones se mantienen en portugués por compatibilidad.
 
 ## Comportamiento y límites
 
-Opciones: `titulo`, `texto`, `valor`, `confirmar`, `cancelar`, `perigo`, `tema` (auto/claro/escuro), `minimizar`, `rotuloCampo`, `nonce`, `injetarCSS`. Requiere un navegador moderno con `dialog.showModal`. Se puede importar en SSR, pero interactuar sin DOM rechaza la Promise. Escape/X cancelan, Enter envía el formulario y el modal nativo mantiene el foco de Tab. Minimizar conserva el texto y libera la página hasta restaurar; la Promise sigue pendiente. Usa `textContent`. Con CSP estricta, usá un nonce o CSS externo con `injetarCSS: false`; se exporta `CSS`. Personalizá las etiquetas para tu idioma. Demo: `examples/index.html`.
+Opciones: `titulo`, `texto`, `valor`, `confirmar`, `cancelar`, `perigo`, `tema` (auto/claro/escuro), `minimizar`, `rotuloCampo`, `nonce`, `injetarCSS`, `aoFechar` (solo en `confirmar`). Requiere un navegador moderno con `dialog.showModal`. Se puede importar en SSR, pero interactuar sin DOM rechaza la Promise. Escape/X cancelan, Enter envía el formulario y el modal nativo mantiene el foco de Tab. Minimizar conserva el texto y libera la página hasta restaurar; la Promise sigue pendiente. Usa `textContent`. Con CSP estricta, usá un nonce o CSS externo con `injetarCSS: false`; se exporta `CSS`. Personalizá las etiquetas para tu idioma. Demo: `examples/index.html`.
 
 ## Seguridad y compatibilidad
 
 Modal nativo, cola, nombres accesibles, temas y minimizar/restaurar conservando los campos.
 
+## Uso práctico — 1.3.0
+
+En `confirmar`, el botón Cancelar es una respuesta explícita y siempre devuelve `false`. Cerrar sin responder (`Esc`, X o clic afuera) devuelve el valor de `aoFechar`, que por defecto es `false`, el mismo resultado de las versiones anteriores. Pasá `aoFechar: null` para distinguir "lo descartó" de "no":
+
+```js
+const r = await confirmar({ texto: '¿Guardar antes de salir?', cancelar: 'Descartar', confirmar: 'Guardar', aoFechar: null });
+if (r === true) guardar();
+else if (r === false) descartar();
+else return; // null: cerró sin responder, no cambia nada
+```
+
 ## Uso práctico — 1.2.0
 
-Las funciones aceptan `signal: AbortSignal`. Cancelar devuelve `null` en `perguntar`, `false` en `confirmar` y `undefined` en `avisar`, incluso en diálogos minimizados o en cola. Usá AbortController cuando se desmonte una página.
+Las funciones aceptan `signal: AbortSignal`. Cancelar devuelve `null` en `perguntar`, el valor de `aoFechar` en `confirmar` (`false` por defecto) y `undefined` en `avisar`, incluso en diálogos minimizados o en cola. Usá AbortController cuando se desmonte una página.
 
 Demo para navegador: `examples/index.html`.
 
