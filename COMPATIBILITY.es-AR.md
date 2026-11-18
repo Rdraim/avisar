@@ -8,7 +8,9 @@
 
 Núcleo sin dependencias de ejecución. CI con Node.js 22 y 24. Instalación desde Git; este proyecto no está publicado en npm. Revisá Releases y fijá una tag/commit al integrar. Actualizaciones requieren revisar licencia, engines y pruebas del consumidor. Un badge de CI no certifica seguridad.
 
-Revisión: 2026-10-07. ESM · MIT · Node.js >=22.
+Revisión: 2026-11-18. ESM · MIT · Node.js >=22.
+
+La 1.3.0 agrega `aoFechar` a `confirmar()` sin cambiar el valor por defecto: sin la opción, Cancelar, `Esc`, X, clic afuera y `AbortSignal` siguen devolviendo `false`. Con `aoFechar: null`, el tipo de retorno pasa a ser `boolean | null`; tratá el `null` antes de usar el resultado como booleano.
 
 [Node.js releases](https://nodejs.org/en/about/previous-releases) · [GitHub Releases](https://github.com/Rdraim/avisar/releases)
 

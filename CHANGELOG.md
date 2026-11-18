@@ -4,6 +4,10 @@
   <a href="CHANGELOG.es-AR.md"><img src="assets/support/flag-es-ar.svg" width="36" height="24" alt="Español (Argentina)" title="Español (Argentina)"></a>
 </p>
 
+# 1.3.0 — 2026-11-18
+
+Nova opção `aoFechar` em `confirmar()`: valor devolvido quando a pessoa fecha o diálogo sem responder (`Esc`, X ou clique fora). O botão Cancelar continua devolvendo `false` como resposta explícita. O cancelamento por `AbortSignal` (já abortado, aberto, minimizado ou na fila) também devolve `aoFechar`. O padrão `false` preserva o comportamento anterior; use `aoFechar: null` para distinguir "dispensou" de "não". `perguntar()` e `avisar()` não mudam. Testes com DOM mínimo sintético cobrem os dois casos.
+
 # 1.2.0 — 2026-10-07
 
 ## 1.2.1 — 2026-10-07

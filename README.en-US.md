@@ -23,7 +23,7 @@ npm test
 node tools/check-public-content.mjs
 ```
 
-These imports work from the cloned repository root. To use the module in another project, install a pinned Git tag (v1.2.1) or copy the module while retaining the MIT license. This documentation does not claim an npm registry release.
+These imports work from the cloned repository root. To use the module in another project, install a pinned Git tag (v1.3.0) or copy the module while retaining the MIT license. This documentation does not claim an npm registry release.
 
 ```js
 import { avisar, confirmar, perguntar } from './src/index.js';
@@ -34,13 +34,13 @@ const name = await perguntar({ titulo: 'Name', texto: 'Enter a name', valor: '',
 
 ## API
 
-`avisar(texto, opcoes)` → Promise<void>; `confirmar(texto | opcoes)` → Promise<boolean>; `perguntar(texto | opcoes)` → Promise<string | null>; `CSS`.
+`avisar(texto, opcoes)` → Promise<void>; `confirmar(texto | opcoes)` → Promise<boolean> (or the `aoFechar` value when dismissed; `aoFechar` defaults to `false`); `perguntar(texto | opcoes)` → Promise<string | null>; `CSS`.
 
 Public function and option names remain in Portuguese for compatibility.
 
 ## Behavior and limits
 
-Options: `titulo`, `texto`, `valor`, `confirmar`, `cancelar`, `perigo`, `tema` (auto/claro/escuro), `minimizar`, `rotuloCampo`, `nonce`, `injetarCSS`. Requires a modern browser with dialog.showModal. SSR imports work, but interaction without a DOM rejects. Dialogs are queued. Escape/X cancel, Enter submits the form, and native modal behavior traps Tab focus. Minimizing preserves input and releases the page until restored; the Promise stays pending. Text uses textContent. For strict CSP, provide a nonce or external CSS with `injetarCSS: false` (CSS is exported). Customize labels for English. See `examples/index.html`.
+Options: `titulo`, `texto`, `valor`, `confirmar`, `cancelar`, `perigo`, `tema` (auto/claro/escuro), `minimizar`, `rotuloCampo`, `nonce`, `injetarCSS`, `aoFechar` (confirmar only). Requires a modern browser with dialog.showModal. SSR imports work, but interaction without a DOM rejects. Dialogs are queued. Escape/X cancel, Enter submits the form, and native modal behavior traps Tab focus. Minimizing preserves input and releases the page until restored; the Promise stays pending. Text uses textContent. For strict CSP, provide a nonce or external CSS with `injetarCSS: false` (CSS is exported). Customize labels for English. See `examples/index.html`.
 
 ## Maintenance
 
@@ -55,9 +55,20 @@ Native modal, queue, accessible names, themes and input-preserving minimize/rest
 MIT © Rodrigo Rodrigues
 
 
+## Practical use — 1.3.0
+
+In `confirmar`, the Cancel button is an explicit answer and always returns `false`. Closing without answering (`Esc`, X or a click outside) returns the `aoFechar` value, which defaults to `false` — the same result as earlier versions. Pass `aoFechar: null` to tell "dismissed" apart from "no":
+
+```js
+const r = await confirmar({ texto: 'Save before leaving?', cancelar: 'Discard', confirmar: 'Save', aoFechar: null });
+if (r === true) save();
+else if (r === false) discard();
+else return; // null: closed without answering, nothing changes
+```
+
 ## Practical use — 1.2.0
 
-Functions accept `signal: AbortSignal`. Cancellation returns `null` for perguntar, `false` for confirmar and `undefined` for avisar; it works when open, minimized or queued. Use AbortController when a page unmounts.
+Functions accept `signal: AbortSignal`. Cancellation returns `null` for perguntar, the `aoFechar` value for confirmar (default `false`) and `undefined` for avisar; it works when open, minimized or queued. Use AbortController when a page unmounts.
 
 ---
 

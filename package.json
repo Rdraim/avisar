@@ -1,6 +1,6 @@
 {
   "name": "avisar",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "description": "Queued Promise-based alert, confirm and prompt dialogs using native HTML dialog behavior.",
   "type": "module",
   "main": "src/index.js",

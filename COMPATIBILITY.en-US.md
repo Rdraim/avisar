@@ -8,7 +8,9 @@
 
 No runtime dependencies in the core. CI targets Node.js 22 and 24. Install from Git; this project is not published on npm. Review Releases and pin a tag/commit for integration. Dependency updates require license, engine and consumer test review. A CI badge is not a security certification.
 
-Review: 2026-10-07. ESM · MIT · Node.js >=22.
+Review: 2026-11-18. ESM · MIT · Node.js >=22.
+
+Version 1.3.0 adds `aoFechar` to `confirmar()` without changing the default: without the option, Cancel, `Esc`, X, a click outside and `AbortSignal` still return `false`. With `aoFechar: null`, the return type becomes `boolean | null`; handle `null` before using the result as a boolean.
 
 [Node.js releases](https://nodejs.org/en/about/previous-releases) · [GitHub Releases](https://github.com/Rdraim/avisar/releases)
 
