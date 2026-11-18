@@ -12,6 +12,10 @@ export const CSS = `
 `;
 let fila = Promise.resolve();
 let proximoId = 0;
+// Respostas internas: "Cancelar" é uma resposta explícita; fechar (Esc, X, clique fora, AbortSignal) é dispensar.
+const RESPOSTA_CANCELAR = Symbol('avisar.cancelar');
+const RESPOSTA_FECHAR = Symbol('avisar.fechar');
+const respostaFechar = (o) => (RESPOSTA_FECHAR in o ? o[RESPOSTA_FECHAR] : null);
 function elemento(tag, texto, classe) {
   const el = document.createElement(tag);
   if (texto != null) el.textContent = String(texto);
@@ -24,14 +28,15 @@ function botao(texto, classe, acao) {
   return el;
 }
 function abrir(o) {
-  if (o.signal?.aborted) return Promise.resolve(null);
+  const dispensado = respostaFechar(o);
+  if (o.signal?.aborted) return Promise.resolve(dispensado);
   if (typeof document === 'undefined') return Promise.reject(new Error('avisar precisa de um navegador com DOM'));
   const resultado = fila.then(() => executar(o));
   fila = resultado.catch(() => {});
   if (o.signal) {
     let abortar;
     const cancelado = new Promise((resolve) => {
-      abortar = () => resolve(null);
+      abortar = () => resolve(dispensado);
       o.signal.addEventListener('abort', abortar, { once: true });
       if (o.signal.aborted) abortar();
     });
@@ -39,8 +44,8 @@ function abrir(o) {
   }
   return resultado;
 }
-function executar({ titulo = 'Aviso / Notice', texto = '', campo = false, confirmar = 'OK', cancelar = null, perigo = false, valor = '', tema = 'auto', nonce, injetarCSS = true, minimizar = true, rotuloCampo = texto || titulo, signal }) {
-  if (signal?.aborted) return null;
+function executar({ titulo = 'Aviso / Notice', texto = '', campo = false, confirmar = 'OK', cancelar = null, perigo = false, valor = '', tema = 'auto', nonce, injetarCSS = true, minimizar = true, rotuloCampo = texto || titulo, signal, [RESPOSTA_CANCELAR]: respostaCancelar = null, [RESPOSTA_FECHAR]: dispensado = null }) {
+  if (signal?.aborted) return dispensado;
   if (injetarCSS && !document.querySelector('style[data-avisar]')) {
     const estilo = elemento('style', CSS); estilo.dataset.avisar = '';
     if (nonce) estilo.nonce = nonce;
@@ -76,8 +81,8 @@ function executar({ titulo = 'Aviso / Notice', texto = '', campo = false, confir
       if (anterior?.isConnected && typeof anterior.focus === 'function') anterior.focus();
       resolve(resultado);
     };
-    const abortar = () => fechar(null);
-    const fecharBtn = botao('×', 'avisar-icone fechar', () => fechar(null));
+    const abortar = () => fechar(dispensado);
+    const fecharBtn = botao('×', 'avisar-icone fechar', () => fechar(dispensado));
     fecharBtn.title = 'Fechar / Close'; fecharBtn.setAttribute('aria-label', fecharBtn.title);
     if (minimizar) {
       const min = botao('_', 'avisar-icone', () => {
@@ -90,14 +95,14 @@ function executar({ titulo = 'Aviso / Notice', texto = '', campo = false, confir
       min.title = 'Minimizar / Minimize'; min.setAttribute('aria-label', min.title); controles.append(min);
     }
     controles.append(fecharBtn);
-    if (cancelar) acoes.append(botao(cancelar, 'avisar-btn', () => fechar(null)));
+    if (cancelar) acoes.append(botao(cancelar, 'avisar-btn', () => fechar(respostaCancelar)));
     const ok = elemento('button', confirmar, `avisar-btn ${perigo ? 'perigo' : 'ok'}`); ok.type = 'submit';
     acoes.append(ok); form.append(acoes); dialogo.append(controles, form);
     form.addEventListener('submit', (ev) => { ev.preventDefault(); fechar(input ? input.value : true); });
-    dialogo.addEventListener('cancel', (ev) => { ev.preventDefault(); fechar(null); });
+    dialogo.addEventListener('cancel', (ev) => { ev.preventDefault(); fechar(dispensado); });
     dialogo.addEventListener('click', (ev) => {
       const r = dialogo.getBoundingClientRect();
-      if (cancelar && ev.target === dialogo && (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom)) fechar(null);
+      if (cancelar && ev.target === dialogo && (ev.clientX < r.left || ev.clientX > r.right || ev.clientY < r.top || ev.clientY > r.bottom)) fechar(dispensado);
     });
     try {
       signal?.addEventListener('abort', abortar, { once: true });
@@ -111,7 +116,10 @@ function executar({ titulo = 'Aviso / Notice', texto = '', campo = false, confir
 export function avisar(texto, opcoes = {}) { return abrir({ ...opcoes, texto, campo: false, cancelar: null }).then(() => undefined); }
 export function confirmar(opcoes = {}) {
   const o = typeof opcoes === 'string' ? { texto: opcoes } : opcoes;
-  return abrir({ ...o, campo: false, cancelar: o.cancelar || 'Cancelar', confirmar: o.confirmar || 'Confirmar' }).then((r) => r === true);
+  // aoFechar: valor devolvido ao dispensar (Esc, X, clique fora, AbortSignal); padrão false mantém o retorno antigo.
+  const aoFechar = o.aoFechar === undefined ? false : o.aoFechar;
+  return abrir({ ...o, campo: false, cancelar: o.cancelar || 'Cancelar', confirmar: o.confirmar || 'Confirmar', [RESPOSTA_CANCELAR]: false, [RESPOSTA_FECHAR]: aoFechar })
+    .then((r) => (r === true || r === false ? r : aoFechar));
 }
 export function perguntar(opcoes = {}) {
   const o = typeof opcoes === 'string' ? { texto: opcoes } : opcoes;
